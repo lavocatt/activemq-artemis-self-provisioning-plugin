@@ -1,13 +1,15 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useReducer, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { k8sCreate } from '@openshift-console/dynamic-plugin-sdk';
 import { AlertVariant } from '@patternfly/react-core';
 import { AddBroker } from './AddBroker.component';
 import { AMQBrokerModel, K8sResourceCommon } from '../../utils';
 import {
-  AddBrokerResourceValues,
+  ArtemisReducerOperations,
   BrokerConfigContext,
+  BrokerDispatchContext,
   addBrokerInitialValues,
+  artemisCrReducer,
 } from '../utils';
 
 const AddBrokerPage: FC = () => {
@@ -18,8 +20,7 @@ const AddBrokerPage: FC = () => {
   const initialValues = addBrokerInitialValues(namespace);
 
   //states
-  const [formValues, setFormValues] =
-    useState<AddBrokerResourceValues>(initialValues);
+  const [brokerModel, dispatch] = useReducer(artemisCrReducer, initialValues);
   const [notification, setNotification] = useState(defaultNotification);
 
   const handleRedirect = () => {
@@ -38,22 +39,24 @@ const AddBrokerPage: FC = () => {
       });
   };
 
-  const updateNamespace = (brokerModel: K8sResourceCommon) => {
-    brokerModel.metadata.namespace = namespace;
-  };
-
-  useEffect(() => {
-    formValues.setYamlData(updateNamespace);
-  }, [namespace]);
+  const [prevNamespace, setPrevNamespace] = useState(namespace);
+  if (prevNamespace !== namespace) {
+    dispatch({
+      operation: ArtemisReducerOperations.updateNamespace,
+      payload: namespace,
+    });
+    setPrevNamespace(namespace);
+  }
 
   return (
-    <BrokerConfigContext.Provider value={formValues}>
-      <AddBroker
-        namespace={namespace}
-        notification={notification}
-        onCreateBroker={k8sCreateBroker}
-        onChangeValue={setFormValues}
-      />
+    <BrokerConfigContext.Provider value={brokerModel}>
+      <BrokerDispatchContext.Provider value={dispatch}>
+        <AddBroker
+          namespace={namespace}
+          notification={notification}
+          onCreateBroker={k8sCreateBroker}
+        />
+      </BrokerDispatchContext.Provider>
     </BrokerConfigContext.Provider>
   );
 };
