@@ -1,5 +1,12 @@
-import { k8sGet, useK8sModel } from '@openshift-console/dynamic-plugin-sdk';
-import { useState } from 'react';
+import {
+  Action,
+  ExtensionHook,
+  NodeKind,
+  k8sGet,
+  useDeleteModal,
+  useK8sModel,
+} from '@openshift-console/dynamic-plugin-sdk';
+import { useMemo, useState } from 'react';
 import { AMQBrokerModel, IngressDomainModel } from './models';
 import { BrokerCR, Ingress } from './types';
 
@@ -103,4 +110,35 @@ export const useHasCertManager = (): {
     setIsFirstMount(false);
   }
   return { hasCertManager: hasCertManager, isLoading: loading, error: error };
+};
+
+export const useProvideActiveMQArtemisActions: ExtensionHook<
+  Action[],
+  NodeKind
+> = (obj) => {
+  const [kindObj, inFlight] = useK8sModel({
+    group: 'broker.amq.io',
+    version: 'v1beta1',
+    kind: 'ActiveMQArtemis',
+  });
+  const deleteModal = useDeleteModal(obj);
+  const nodeActions = useMemo<Action[]>(() => {
+    const actions: Action[] = [];
+    actions.push({
+      id: `delete-resource`,
+      label: 'Delete Broker',
+      cta: () => deleteModal(),
+      accessReview: {
+        group: kindObj.apiGroup,
+        resource: kindObj.plural,
+        name: obj.metadata.name,
+        namespace: obj.metadata.namespace,
+        verb: 'delete',
+      },
+    });
+
+    return actions;
+  }, [obj, deleteModal, kindObj]);
+
+  return [nodeActions, !inFlight, undefined];
 };

@@ -84,5 +84,16 @@
       },
       "component": { "$codeRef": "AddBrokerContainer.AddBrokerPage" }
     }
+  },
+  {
+    "type": "console.action/provider",
+    "properties": {
+      "model": {
+        "group": "broker.amq.io",
+        "version": "v1beta1",
+        "kind": "ActiveMQArtemis"
+      },
+      "provider": { "$codeRef": "CustomHooks.useProvideActiveMQArtemisActions" }
+    }
   }
 ]
