@@ -12,7 +12,7 @@ import {
   BrokerCreationFormState,
   getAcceptorFromCertManagerResourceTemplate,
   getCertManagerResourceTemplateFromAcceptor,
-} from '@app/reducers/7.12/reducer';
+} from '@app/reducers/broker-form/reducer';
 import { ResourceTemplate } from '@app/k8s/types';
 import { SelectIssuerDrawer } from '../../SelectIssuerDrawer/SelectIssuerDrawer';
 import { ConfirmDeleteModal } from '../../ConfirmDeleteModal/ConfirmDeleteModal';

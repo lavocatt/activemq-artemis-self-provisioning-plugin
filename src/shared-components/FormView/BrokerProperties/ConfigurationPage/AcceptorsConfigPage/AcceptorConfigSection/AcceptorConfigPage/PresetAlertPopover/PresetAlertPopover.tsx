@@ -4,7 +4,7 @@ import {
   BrokerCreationFormState,
   getAcceptor,
   getCertManagerResourceTemplateFromAcceptor,
-} from '@app/reducers/7.12/reducer';
+} from '@app/reducers/broker-form/reducer';
 import { useTranslation } from '@app/i18n/i18n';
 import { Alert, Icon, Popover } from '@patternfly/react-core';
 import { BellIcon, WarningTriangleIcon } from '@patternfly/react-icons';

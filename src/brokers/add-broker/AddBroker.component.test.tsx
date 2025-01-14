@@ -4,7 +4,7 @@ import {
   BrokerCreationFormState,
   artemisCrReducer,
   newArtemisCRState,
-} from '../../reducers/7.12/reducer';
+} from '../../reducers/broker-form/reducer';
 import { fireEvent, render, screen } from '../../test-utils';
 import { AddBroker } from './AddBroker.component';
 import { useAccessReview } from '@openshift-console/dynamic-plugin-sdk';

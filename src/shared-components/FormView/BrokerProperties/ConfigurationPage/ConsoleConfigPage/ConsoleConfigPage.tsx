@@ -3,7 +3,7 @@ import {
   BrokerCreationFormDispatch,
   BrokerCreationFormState,
   ExposeMode,
-} from '@app/reducers/7.12/reducer';
+} from '@app/reducers/broker-form/reducer';
 
 import {
   Checkbox,

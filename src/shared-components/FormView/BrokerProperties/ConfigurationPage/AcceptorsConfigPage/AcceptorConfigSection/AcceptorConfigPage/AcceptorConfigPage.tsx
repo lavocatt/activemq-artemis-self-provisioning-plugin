@@ -21,7 +21,7 @@ import {
   getConfigPort,
   getConfigProtocols,
   getConfigSSLEnabled,
-} from '@app/reducers/7.12/reducer';
+} from '@app/reducers/broker-form/reducer';
 import { FC, useContext } from 'react';
 import { ConfigType } from '../../../ConfigurationPage';
 import { useTranslation } from '@app/i18n/i18n';

@@ -25,7 +25,7 @@ import {
   BrokerCreationFormDispatch,
   BrokerCreationFormState,
   getCertManagerResourceTemplateFromAcceptor,
-} from '@app/reducers/7.12/reducer';
+} from '@app/reducers/broker-form/reducer';
 import { SelectIssuerDrawer } from '../SelectIssuerDrawer/SelectIssuerDrawer';
 import { useHasCertManager } from '@app/k8s/customHooks';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';

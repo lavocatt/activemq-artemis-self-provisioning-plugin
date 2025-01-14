@@ -3,7 +3,7 @@ import { ConfigType } from '../../../../ConfigurationPage';
 import { FC, useState } from 'react';
 import { useTranslation } from '@app/i18n/i18n';
 import { PresetAlertPopover } from '../PresetAlertPopover/PresetAlertPopover';
-import { ExposeMode } from '@app/reducers/7.12/reducer';
+import { ExposeMode } from '@app/reducers/broker-form/reducer';
 import { FormGroup } from '@patternfly/react-core';
 import {
   Select,

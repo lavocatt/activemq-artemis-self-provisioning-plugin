@@ -16,7 +16,7 @@ import {
   BrokerCreationFormDispatch,
   BrokerCreationFormState,
   EditorType,
-} from '../../reducers/7.12/reducer';
+} from '../../reducers/broker-form/reducer';
 import { FormView } from '../../shared-components/FormView/FormView';
 import { EditorToggle } from './components/EditorToggle/EditorToggle';
 import { Loading } from '../../shared-components/Loading/Loading';

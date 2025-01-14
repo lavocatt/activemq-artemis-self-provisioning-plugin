@@ -3,7 +3,7 @@ import {
   BrokerCreationFormDispatch,
   BrokerCreationFormState,
   listConfigs,
-} from '@app/reducers/7.12/reducer';
+} from '@app/reducers/broker-form/reducer';
 import { FC, useContext } from 'react';
 import { ConfigType, ConfigTypeContext } from '../ConfigurationPage';
 import {

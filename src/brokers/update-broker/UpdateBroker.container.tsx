@@ -12,7 +12,7 @@ import {
   BrokerCreationFormState,
   artemisCrReducer,
   getArtemisCRState,
-} from '@app/reducers/7.12/reducer';
+} from '@app/reducers/broker-form/reducer';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 
 export const UpdateBrokerPage: FC = () => {

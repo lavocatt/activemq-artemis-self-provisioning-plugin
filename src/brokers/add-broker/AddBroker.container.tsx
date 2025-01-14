@@ -10,8 +10,8 @@ import {
   newArtemisCRState,
   artemisCrReducer,
   ArtemisReducerOperations,
-} from '@app/reducers/7.12/reducer';
-import { AddBrokerResourceValues } from '@app/reducers/7.12/import-types';
+} from '@app/reducers/broker-form/reducer';
+import { AddBrokerResourceValues } from '@app/reducers/broker-form/import-types';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { useGetIngressDomain } from '@app/k8s/customHooks';
 

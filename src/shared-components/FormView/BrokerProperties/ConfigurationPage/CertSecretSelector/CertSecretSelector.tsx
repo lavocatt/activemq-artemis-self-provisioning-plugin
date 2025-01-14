@@ -6,7 +6,7 @@ import {
   getAcceptor,
   getCertManagerResourceTemplateFromAcceptor,
   getConfigSecret,
-} from '@app/reducers/7.12/reducer';
+} from '@app/reducers/broker-form/reducer';
 import { CertIssuerModel, CertModel, SecretModel } from '@app/k8s/models';
 import { K8sResourceCommonWithData } from '@app/k8s/types';
 import {

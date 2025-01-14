@@ -17,7 +17,7 @@ import {
   ArtemisReducerOperations,
   BrokerCreationFormDispatch,
   BrokerCreationFormState,
-} from '../../reducers/7.12/reducer';
+} from '../../reducers/broker-form/reducer';
 import YAML, { YAMLParseError } from 'yaml';
 import './YamlEditorView.css';
 import { ResourceYAMLEditor } from '@openshift-console/dynamic-plugin-sdk';

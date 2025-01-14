@@ -11,7 +11,7 @@ import {
   BrokerCreationFormDispatch,
   BrokerCreationFormState,
   listConfigs,
-} from '../../../../../../../reducers/7.12/reducer';
+} from '../../../../../../../reducers/broker-form/reducer';
 import { useTranslation } from '../../../../../../../i18n/i18n';
 import { ConfigType, ConfigTypeContext } from '../../../ConfigurationPage';
 export type ConfigRenamingModalProps = {

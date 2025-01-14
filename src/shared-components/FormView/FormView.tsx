@@ -18,7 +18,7 @@ import {
   ArtemisReducerOperations,
   BrokerCreationFormDispatch,
   BrokerCreationFormState,
-} from '@app/reducers/7.12/reducer';
+} from '@app/reducers/broker-form/reducer';
 import {
   BrokerProperties,
   BrokerPropertiesList,
@@ -47,7 +47,7 @@ export const FormView: FC = () => {
   ) => {
     setIsPerBrokerConfig(checked);
   };
-  const [selectedVersion, setSelectedVersion] = useState('7.12');
+  const [selectedVersion, setSelectedVersion] = useState('broker-form');
 
   const onChangeVersion = (value: string) => {
     setSelectedVersion(value);
@@ -55,7 +55,7 @@ export const FormView: FC = () => {
 
   const options = [
     { value: 'please choose', label: 'Select a version', disabled: true },
-    { value: '7.12', label: 'AMQ 7.12', disabled: false },
+    { value: 'broker-form', label: 'AMQ broker-form', disabled: false },
     { value: '8.0', label: 'AMQ 8.0', disabled: true },
   ];
 

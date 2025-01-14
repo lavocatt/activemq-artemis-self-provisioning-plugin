@@ -21,7 +21,7 @@ import { FC, useState } from 'react';
 import {
   getIssuerForAcceptor,
   getIssuerIngressHostForAcceptor,
-} from '@app/reducers/7.12/reducer';
+} from '@app/reducers/broker-form/reducer';
 import { Loading } from '@app/shared-components/Loading/Loading';
 import {
   Acceptor,
