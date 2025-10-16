@@ -191,6 +191,20 @@ docker container and pass the locations to the console using BRIDGE_TLS_CERT_FIL
 BRIDGE_TLS_KEY_FILE environment variables respectively. Please see the `start-console-tls.sh`
 for details.
 
+##### Specifying a Console Version
+
+By default, the console will start with the `latest` version image. You can specify a different version by passing it as an argument to the `yarn start-console` or `yarn start-console-tls` commands. This is useful for testing compatibility with older console versions.
+
+For example, to run the console using version `4.16`:
+
+```sh
+yarn start-console 4.16
+# Or with TLS if required
+yarn start-console-tls 4.16
+```
+
+Supported versions can be found in the CI configuration file. This allows you to manually test the plugin's behavior on specific OpenShift releases.
+
 ### Trusting Self-Signed Certificates for WebSocket Hot Reloading
 
 When running the plugin in HTTPS mode with `yarn start-tls`, the webpack dev server uses self-signed certificates for both HTTP and WebSocket connections. While your browser may accept the certificate for regular HTTP requests, **WebSocket connections require explicit certificate trust**.
@@ -236,6 +250,64 @@ devServer: {
 ```
 
 The `client.webSocketURL` configuration explicitly tells the webpack dev server client where to connect for hot reloading updates, ensuring it uses the secure WebSocket protocol (`wss://`).
+
+## E2E Tests
+
+The project includes an end-to-end (E2E) test suite using Cypress to automate and validate its functionality in a realistic environment.
+
+### Prerequisites
+
+Before running the E2E tests, ensure you have the following set up:
+
+1.  **Running OpenShift Cluster**: You must have a local or remote OpenShift cluster running. See the [Setting up an OpenShift cluster](#setting-up-an-openshift-cluster) section for details.
+2.  **Operators Installed**: The `AMQ Broker` and `cert-manager` operators must be installed on the cluster.
+3.  **Authenticated `oc` CLI**: You must be logged into your cluster via the `oc` command line.
+4.  **Bridge Authentication**: The bridge authentication must be set up for HTTP (non-TLS). From the project root, run:
+    ```sh
+    cd bridge-auth-http && ./setup.sh && cd ..
+    ```
+5.  **Webpack Server**: The plugin's webpack server must be running in a terminal (non-TLS). From the project root, run:
+    ```sh
+    yarn start
+    ```
+
+### Running the Test Suite Locally
+
+With all the prerequisites in place and the webpack server running, you can run the tests.
+
+> [!IMPORTANT]
+> The test suite requires the `kubeadmin` password to be set as an environment variable. Before running Cypress, make sure to set `CYPRESS_KUBEADMIN_PASSWORD`. You can retrieve the password for your local CRC cluster by running:
+>
+> ```sh
+> crc console --credentials
+> ```
+>
+> Then, export the variable:
+>
+> ```sh
+> export CYPRESS_KUBEADMIN_PASSWORD="<your-password>"
+> ```
+
+> [!NOTE]
+> Alternatively, you can set your CRC `kubeadmin` password to the default value `kubeadmin` so you don't have to export the variable. You can do this by running the following command before starting your CRC cluster:
+>
+> ```sh
+> crc config set kubeadmin-password kubeadmin
+> ```
+
+1.  **Start the Console**: In a second terminal, start the OpenShift console.
+    ```sh
+    yarn start-console
+    ```
+2.  **Run Cypress**: In a third terminal, you can either open the interactive Cypress Test Runner or run the tests headlessly.
+    - To open the interactive runner:
+      ```sh
+      yarn cy:open
+      ```
+    - To run tests headlessly in the terminal (as in the CI pipeline):
+      ```sh
+      yarn cy:run
+      ```
 
 ## Docker image
 
