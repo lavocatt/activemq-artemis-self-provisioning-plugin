@@ -253,7 +253,10 @@ The `client.webSocketURL` configuration explicitly tells the webpack dev server 
 
 ## E2E Tests
 
-The project includes an end-to-end (E2E) test suite using Cypress to automate and validate its functionality in a realistic environment.
+During a short evaluation perdiod, the project includes end-to-end (E2E) test
+suites using both **Cypress** and **Playwright** to automate and validate its
+functionality in a realistic environment. The aim is to choose the one that
+suits the team the most.
 
 ### Prerequisites
 
@@ -271,43 +274,124 @@ Before running the E2E tests, ensure you have the following set up:
     yarn start
     ```
 
-### Running the Test Suite Locally
-
-With all the prerequisites in place and the webpack server running, you can run the tests.
+### Setting the kubeadmin Password
 
 > [!IMPORTANT]
-> The test suite requires the `kubeadmin` password to be set as an environment variable. Before running Cypress, make sure to set `CYPRESS_KUBEADMIN_PASSWORD`. You can retrieve the password for your local CRC cluster by running:
+> The test suites require the `kubeadmin` password to be set as an environment variable. You can retrieve the password for your local CRC cluster by running:
 >
 > ```sh
 > crc console --credentials
 > ```
 >
-> Then, export the variable:
+> Then, export the variable based on which test framework you're using:
 >
-> ```sh
-> export CYPRESS_KUBEADMIN_PASSWORD="<your-password>"
-> ```
+> - **For Cypress:**
+>
+>   ```sh
+>   export CYPRESS_KUBEADMIN_PASSWORD="<your-password>"
+>   ```
+>
+> - **For Playwright:**
+>   ```sh
+>   export KUBEADMIN_PASSWORD="<your-password>"
+>   ```
 
 > [!NOTE]
-> Alternatively, you can set your CRC `kubeadmin` password to the default value `kubeadmin` so you don't have to export the variable. You can do this by running the following command before starting your CRC cluster:
+> Alternatively, you can set your CRC `kubeadmin` password to the default value `kubeadmin` so you don't have to export environment variables. You can do this by running the following command before starting your CRC cluster:
 >
 > ```sh
 > crc config set kubeadmin-password kubeadmin
 > ```
 
+### Running the Test Suites Locally
+
+With all the prerequisites in place and the webpack server running, you can run the tests.
+
 1.  **Start the Console**: In a second terminal, start the OpenShift console.
+
     ```sh
     yarn start-console
     ```
-2.  **Run Cypress**: In a third terminal, you can either open the interactive Cypress Test Runner or run the tests headlessly.
-    - To open the interactive runner:
-      ```sh
-      yarn cy:open
-      ```
-    - To run tests headlessly in the terminal (as in the CI pipeline):
-      ```sh
-      yarn cy:run
-      ```
+
+2.  **Run Tests**: In a third terminal, choose one of the following options:
+
+#### Cypress Tests
+
+- **Interactive Mode** (recommended for development and debugging):
+
+  ```sh
+  yarn cy:open
+  ```
+
+  Opens the Cypress Test Runner UI where you can select tests, watch them execute, and time-travel through test steps.
+
+- **Headless Mode** (for CI or quick runs):
+  ```sh
+  yarn cy:run
+  ```
+  Runs tests in the terminal without opening a browser window.
+
+#### Playwright Tests
+
+- **Interactive Mode with UI** (recommended for development and debugging):
+
+  ```sh
+  KUBEADMIN_PASSWORD=kubeadmin yarn pw:ui
+  ```
+
+  Opens Playwright's UI Mode with a visual timeline, DOM snapshots, network inspection, and step-by-step debugging capabilities.
+
+- **Headed Mode** (browser visible, without UI):
+
+  ```sh
+  KUBEADMIN_PASSWORD=kubeadmin yarn pw:headed
+  ```
+
+  Runs tests with a visible browser window but without the interactive debugger.
+
+- **Headless Mode** (for CI or quick runs):
+  ```sh
+  KUBEADMIN_PASSWORD=kubeadmin yarn pw:test
+  ```
+  Runs tests in the terminal without opening a browser window.
+
+### Debugging Tests
+
+Both frameworks provide excellent debugging capabilities:
+
+#### Cypress Debugging
+
+1. **Interactive Time-Travel**: Use `yarn cy:open` and click on any command in the test log to see the application state at that moment.
+
+2. **Pause Execution**: Add `cy.pause()` in your test code to pause execution and step through commands.
+
+3. **Browser DevTools**: Open DevTools (F12) while running tests and add `debugger;` statements in your test code.
+
+#### Playwright Debugging
+
+1. **UI Mode** (Recommended): Use `yarn pw:ui` to get:
+
+   - Click on any action to see that exact state
+   - "Pick locator" tool to test selectors
+   - DOM snapshots, network, and console logs at each step
+   - Speed slider to slow down test execution
+
+2. **Inspector Mode**: Add `await page.pause()` in your test code, then run with `yarn pw:headed` to open the Playwright Inspector with step-over controls.
+
+3. **VSCode Debugging**: Set breakpoints in test files and use VSCode's debugger with the Playwright extension.
+
+### Choosing Between Cypress and Playwright
+
+| Feature             | Cypress                         | Playwright                    |
+| ------------------- | ------------------------------- | ----------------------------- |
+| **Test Runner UI**  | Excellent with live reload      | Modern with timeline view     |
+| **Step Debugging**  | `.pause()` command              | `page.pause()` + Inspector    |
+| **Browser Support** | Chrome, Firefox, Edge, Electron | Chrome, Firefox, Safari, Edge |
+| **Speed**           | Moderate                        | Fast                          |
+| **Learning Curve**  | Gentle                          | Moderate                      |
+| **IDE Integration** | Good                            | Excellent (especially VSCode) |
+
+Try both to see which workflow suits you best!
 
 ## Docker image
 
